@@ -76,4 +76,10 @@ $(function(){
 		var secondPathSearch = new DepthFirstPaths(testGraph, 10);
 		deepEqual(secondPathSearch.pathTo(11), '11,12,9,10', "Test the path from 11 to 10.");
 	});
+	
+	test("PathFinding - BreadthSearch", function(){
+		var testGraph = makeGraph();
+		var firstPathSearch = new BreadthFirstPaths(testGraph,0);
+		deepEqual(firstPathSearch.pathTo(3), "3,5,0", "Test the path from zero to four.");
+	});
 });

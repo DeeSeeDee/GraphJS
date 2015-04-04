@@ -139,3 +139,50 @@ function DepthFirstPaths(graph, startVertex){
 	
 	this.dfs(graph, startVertex);	
 };
+
+function BreadthFirstPaths(graph, startVertex){
+	this.marked = {};
+	this.edgeTo = {};
+	this.source = startVertex;
+	
+	for(var vertex in Object.keys(graph.adj)){
+		this.marked[vertex] = false;
+	}
+	
+	this.bfs = function(graph, vertex){
+		this.queue = [];
+		this.marked[vertex] = true;
+		this.queue.push(vertex);
+		while(this.queue.length > 0){
+			var v = this.queue.shift();
+			graph.adj[v].forEach(function(adjVertex){
+				if(!this.marked[adjVertex]){
+					this.edgeTo[adjVertex] = v;
+					this.marked[adjVertex] = true;
+					this.queue.push(adjVertex);
+				}
+			}.bind(this));
+		}
+	};
+	
+	this.hasPathTo = function(vertex){
+		if(this.marked[vertex]){
+			return true;
+		}
+		return false;
+	};
+	
+	this.pathTo = function(vertex){
+		if(!this.hasPathTo(vertex)){
+			return false;
+		}
+		var path = [];
+		for (var x = vertex; x != this.source; x = this.edgeTo[x]){
+			path.push(x);
+		}
+		path.push(this.source);
+		return path.join(',');
+	};
+	
+	this.bfs(graph, startVertex);
+}
